@@ -32,7 +32,7 @@ bot = Client(
  
 #   part 1: chat creation & deffenitions 
 
-@bot.on_message(filters.command('start' or 'برگرد به منو') & filters.private)
+@bot.on_message(filters.command('start') & filters.private)
 def start(bot, message):
     global reply_keyboard_buttom, inline_keyboard_buttoms, back_to_menu
 
@@ -156,13 +156,15 @@ def body(bot, message):
                     more_data_details = inline_keyboard_buttoms(more_text, more_buttom)
                     break
 
-
+#   part 3: response to choosen inline buttom 
 @bot.on_callback_query()
 def response_to_inlinebuttoms(Client, CallbackQuery):
     global number_of_sent_response, final_response, more_data_details
-
+    
+    # set choosen_one for data returned of buttoms
     choosen_one = CallbackQuery.data
-
+    
+    # button of show more results
     if choosen_one == 'more_data':
 
         second_counter = 0
@@ -181,17 +183,27 @@ def response_to_inlinebuttoms(Client, CallbackQuery):
 
             second_counter += 1
 
-
+    # buttons of showed results
     else:
         
+        # create caption to send with preview photo
         caption = '🟠 ' + final_response[int(CallbackQuery.data)]['title']
         caption += '\n' + '👨🏻‍🏫 نام استاد: ' + final_response[int(CallbackQuery.data)]['teacher']['name']
         caption += '\n' + '🎒 دانشگاه: ' + final_response[int(CallbackQuery.data)]['university']['name']
 
+        # send result with preview, caption and a button to download
         bot.send_photo(
+
+            # where to send
             CallbackQuery.from_user.id,
+            
+            # photo 
             final_response[int(CallbackQuery.data)]['preview']['file'],
+
+            # caption
             caption = caption,
+
+            # button that linked to source in website
             reply_markup = InlineKeyboardMarkup(
                 [
                     [InlineKeyboardButton('دانلود',
@@ -201,8 +213,5 @@ def response_to_inlinebuttoms(Client, CallbackQuery):
         )
 
 
-
-
-
-
+# lets run:)
 bot.run()
