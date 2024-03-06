@@ -207,7 +207,7 @@ def response_to_inlinebuttoms(Client, CallbackQuery):
             reply_markup = InlineKeyboardMarkup(
                 [
                     [InlineKeyboardButton('دانلود',
-                    url=f'https://thedana.ir/hub/sources/{final_response[int(CallbackQuery.data)]["slug"]}/download/')]
+                    url=f'https://hiboo.ir/hub/sources/{final_response[int(CallbackQuery.data)]["slug"]}/download/')]
                 ]
             )
         )
