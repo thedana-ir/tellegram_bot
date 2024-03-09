@@ -114,7 +114,7 @@ def body(bot, message):
 
         # request to website backend
         wanted_word = message.text
-        website_response = requests.get(f"https://thedana.ir/api/v1/search/?s={wanted_word}")
+        website_response = requests.get(f"https://hiboo.ir/api/v1/search/?s={wanted_word}")
 
         global final_response
         final_response = json.loads(website_response.text)
