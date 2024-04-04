@@ -39,7 +39,7 @@ def body(update, context):
     else:
         sent_message = update.message.reply_text('صبر کن ببینم چی داریم 🤔')
         wanted_word = update.message.text
-        website_response = requests.get(f"http://themohsen.pythonanywhere.com/api/v1/search/?s={wanted_word}")
+        website_response = requests.get(f"https://hiboo.ir/api/v1/search/?s={wanted_word}")
         final_response = json.loads(website_response.text)
 
         if len(final_response) == 0:
