@@ -29,7 +29,6 @@ def start(update, context):
 
 # Function to handle messages
 def body(update, context):
-    global number_of_sent_response, final_response, more_data_details
     level = update.message.text
     if level == 'میخوام جزوه آپلود کنم':
         update.message.reply_text('متاسفانه این قابلیت هنوز تکمیل نشده \n بزودی این امکان هم به ربات اضافه میشه 😀')
@@ -46,6 +45,7 @@ def body(update, context):
         if len(final_response) == 0:
             update.message.reply_text('متاسفانه چیزی پیدا نکردم!🥲\nبا کلمه کلیدی دیگه ای در موردش امتحان کن\n\nمیتونی اگه جزوه یا منبع درسی ای تو این موضوع پیدا کردی با آپلودش توی سایت به بقیه کمک کنی❤️')
         else:
+            context.user_data['final_response'] = final_response
             update.message.reply_text(f'🟡 این {len(final_response)} تا رو پیدا کردم :👇')
             number_of_sent_response = 0
             for i in final_response:
@@ -56,6 +56,7 @@ def body(update, context):
                     update.message.reply_text(text, reply_markup=reply_markup)
                     number_of_sent_response += 1
                 else:
+                    context.user_data['number_of_sent_response'] = number_of_sent_response
                     more_buttom = [
                         [InlineKeyboardButton('نتایج بیشتر ...', callback_data='more_data')]
                     ]
@@ -65,9 +66,10 @@ def body(update, context):
                     break
 
 def response_to_inlinebuttoms(update, context):
-    global number_of_sent_response, final_response, more_data_details
     query = update.callback_query
     choosen_one = query.data
+    final_response = context.user_data.get('final_response')
+    number_of_sent_response = context.user_data.get('number_of_sent_response')
     if choosen_one == 'more_data':
         second_counter = 0
         for i in final_response:
