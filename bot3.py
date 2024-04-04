@@ -64,6 +64,7 @@ def body(update, context):
                     break
 
 def response_to_inlinebuttoms(update, context):
+    global number_of_sent_response, final_response, more_data_details
     query = update.callback_query
     choosen_one = query.data
     if choosen_one == 'more_data':
