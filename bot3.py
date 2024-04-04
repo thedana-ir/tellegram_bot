@@ -29,6 +29,7 @@ def start(update, context):
 
 # Function to handle messages
 def body(update, context):
+    global number_of_sent_response, final_response, more_data_details
     level = update.message.text
     if level == 'میخوام جزوه آپلود کنم':
         update.message.reply_text('متاسفانه این قابلیت هنوز تکمیل نشده \n بزودی این امکان هم به ربات اضافه میشه 😀')
