@@ -4,6 +4,11 @@ import redis
 import requests
 import json
 import os
+import logging
+
+# Enable logging
+logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s', level=logging.ERROR)
+logger = logging.getLogger(__name__)
 
 # Telegram authorization
 # Must be set in environment variables
