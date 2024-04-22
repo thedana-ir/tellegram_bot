@@ -22,24 +22,44 @@ bot = Client(
 )
 
 
-@bot.on_message(filters.command('start') & filters.private)
+@bot.on_message(filters.command('start' or 'برگرد به منو') & filters.private)
 def hello(bot, message):
     bottoms = [
         [
             # ('uplode'),
-            ('download'),
-            ('wedsaite')
+            ('جزوه میخوام🤓'),
+            ('هیبو چیه؟')
         ]
     ]
-    reply_text = 'چه گوهی بخورم برات؟'
+    reply_text = 'هیبو بات هستم🤖 \n آمادم که بهم بگی چیکار کنم:👇'
 
     mess_markup = ReplyKeyboardMarkup(bottoms,one_time_keyboard=True,resize_keyboard=True)
-    message.reply(text=reply_text,reply_markup=mess_markup)
-    
+    message.reply(
+        text=reply_text,
+        reply_markup=mess_markup
+    )
     bot_database.set(message.chat.id, 'start')
-    print(message.chat.id)
-    
 
+
+    user_name = message.chat.username
+    text = f'سلام {user_name} عزیز 🖐🏻' + '\n \n اسم جزوه ای که میخوای رو بهم بگو 🤓 \n یا حتی اسم استادش :)😲 \n \n از منو پایین هم میتونی به قسمت های دیگه ربات دسترسی پیدا کنید😊 \n \n هیبو | دستیار آموزشی تو🦉'
+    bot.send_message(message.chat.id, text)
+
+
+    global back_to_menu
+    def back_to_menu(text):
+        bottoms1 = [
+            [
+            ('برگرد به منو'),
+            ]
+        ]
+        reply_text = text
+        message.reply(
+            text = reply_text,
+            reply_markup = ReplyKeyboardMarkup(bottoms1, one_time_keyboard=True, resize_keyboard=True)
+        )
+        bot_database.set(message.chat.id, 'start')
+    
 
 @bot.on_message(filters.private)
 def body(bot, message):
@@ -54,10 +74,20 @@ def body(bot, message):
 
         # elif message.text == 'uplode setting':
         
-        if message.text == 'download':
+        if message.text == 'جزوه میخوام🤓':
 
             bot.send_message(message.chat.id, 'بوگو اسم جزوه ای که میخوایو')
             bot_database.set(message.chat.id, 'download')
+
+        elif message.text == 'هیبو چیه؟':
+            
+            bot_database.set(message.chat.id, 'aboutus')
+
+
+            back_to_menu('به تو چه')
+
+
+
 
     elif level == 'download':
         bot_database.set(message.chat.id, 'search')
@@ -86,6 +116,12 @@ def body(bot, message):
                 reply_markup = reply_markup,
             )
 
+        back_to_menu('lk,')
+        
+        
+    elif level == 'aboutus':
+
+        hello(bot, message)
 
 
 @bot.on_callback_query()
